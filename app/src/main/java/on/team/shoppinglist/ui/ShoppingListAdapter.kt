@@ -33,7 +33,8 @@ class ShoppingListAdapter(private val context: Context, onDeleteClickList: OnDel
     override fun onBindViewHolder(holder: ShoppingListViewHolder, position: Int) {
         if (adapterCardList != null) {
             var card = adapterCardList[position]
-            holder.setData(card.description, position)
+            var date = adapterCardList[position].date
+            holder.setData(card.description, date, position)
             holder.setListeners()
         } else holder.cardItemView.text = R.string.no_card.toString()
     }
@@ -43,13 +44,15 @@ class ShoppingListAdapter(private val context: Context, onDeleteClickList: OnDel
     }
 
     inner class ShoppingListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var cardItemView:TextView = itemView.findViewById(R.id.tvCard)
-        var editButton: ImageView = itemView.findViewById(R.id.ivRowEdit)
-        var deleteButton: ImageView = itemView.findViewById(R.id.ivRowDelete)
+        var cardItemView: TextView = itemView.findViewById(R.id.card_text)
+        var dateView: TextView = itemView.findViewById(R.id.card_date)
+        var editButton: ImageView = itemView.findViewById(R.id.edit_btn_img)
+        var deleteButton: ImageView = itemView.findViewById(R.id.delete_btn_img)
         private var hPosition: Int = 0
 
-        fun setData(card: String, position: Int) {
+        fun setData(card: String, date: String, position: Int) {
             cardItemView.text = card
+            dateView.text = date
             hPosition = position
         }
         fun setListeners() {

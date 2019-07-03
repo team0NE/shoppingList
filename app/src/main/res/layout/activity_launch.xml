@@ -7,19 +7,14 @@
         android:layout_height="match_parent"
         tools:context=".activities.LaunchActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
+                android:theme="@style/MyTB"
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
-    </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_main"/>
 
@@ -29,6 +24,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/ic_input_add"/>
+            android:background="@color/white"
+            app:srcCompat="@drawable/ic_add_item"
+            app:maxImageSize="@dimen/dimension_54dp"
+    />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

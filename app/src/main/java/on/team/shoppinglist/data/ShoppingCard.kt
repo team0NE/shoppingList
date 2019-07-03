@@ -5,9 +5,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "shopping_cards")
-class ShoppingCard(id:String, description:String) {
+class ShoppingCard(id: String, description: String, date: String) {
     @PrimaryKey
     var id:String = id
     @ColumnInfo(name = "description")
     var description:String = description
+    @ColumnInfo(name = "date")
+    var date: String = date
 }

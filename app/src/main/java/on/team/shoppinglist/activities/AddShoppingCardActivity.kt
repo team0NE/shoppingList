@@ -11,10 +11,10 @@ import butterknife.ButterKnife
 import on.team.shoppinglist.R
 
 class AddShoppingCardActivity : AppCompatActivity() {
-    @BindView(R.id.bAdd)
+    @BindView(R.id.save_btn)
     lateinit var button: Button
-    @BindView(R.id.etNewCard)
-    lateinit var editText: EditText
+    @BindView(R.id.add_card_text)
+    lateinit var addText: EditText
     lateinit var resultIntent:Intent
 
     companion object {
@@ -29,9 +29,9 @@ class AddShoppingCardActivity : AppCompatActivity() {
         button.setOnClickListener {
             resultIntent = Intent()
 
-            if (editText.text.isEmpty()) setResult(Activity.RESULT_CANCELED, resultIntent)
+            if (addText.text.isEmpty()) setResult(Activity.RESULT_CANCELED, resultIntent)
             else {
-                var card = editText.text.toString()
+                var card = addText.text.toString()
                 resultIntent.putExtra(CARD_ADDED, card)
                 setResult(Activity.RESULT_OK, resultIntent)
             }

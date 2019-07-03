@@ -14,16 +14,18 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import on.team.shoppinglist.R
 import on.team.shoppinglist.data.ShoppingCard
+import on.team.shoppinglist.utils.CARD_DATE
 import on.team.shoppinglist.utils.CARD_ID
 import on.team.shoppinglist.utils.UPDATED_CARD
 import on.team.shoppinglist.viewmodel.EditCardViewModel
 
 class EditShoppingCardActivity : AppCompatActivity() {
-    @BindView(R.id.updateCard)
+    @BindView(R.id.update_card)
     lateinit var editText: EditText
     lateinit var editCardViewModel: EditCardViewModel
     lateinit var bundle: Bundle
     lateinit var cardId:String
+    lateinit var cardDate: String
     lateinit var shoppingCard:LiveData<ShoppingCard>
 
     val TAG = this.javaClass.name
@@ -39,6 +41,7 @@ class EditShoppingCardActivity : AppCompatActivity() {
         shoppingCard = editCardViewModel.getCard(cardId)
         shoppingCard.observe(this, Observer {
             editText.setText(shoppingCard.value?.description)
+            cardDate = shoppingCard.value?.date.toString()
         })
     }
 
@@ -48,6 +51,7 @@ class EditShoppingCardActivity : AppCompatActivity() {
         var resultIntent = Intent()
         resultIntent.putExtra(CARD_ID, cardId)
         resultIntent.putExtra(UPDATED_CARD, updatedNote)
+        resultIntent.putExtra(CARD_DATE, cardDate)
         setResult(Activity.RESULT_OK, resultIntent)
         Log.i(TAG, "ShoppingCard was updated")
         finish()

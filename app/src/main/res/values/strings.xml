@@ -11,4 +11,8 @@
     <string name="cancel">Cancel</string>
     <string name="updated">updated</string>
     <string name="update_card">Update shoppingCard</string>
+    <string name="date_example">21.12.1983</string>
+    <string name="shopping">shopping</string>
+    <string name="List">LIST</string>
+    <string name="main_logo">MainLogo</string>
 </resources>
