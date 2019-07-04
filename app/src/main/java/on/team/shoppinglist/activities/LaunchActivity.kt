@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.LEFT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
@@ -19,6 +21,7 @@ import on.team.shoppinglist.utils.*
 import on.team.shoppinglist.viewmodel.ShoppingListViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class LaunchActivity : AppCompatActivity(), ShoppingListAdapter.OnDeleteClickListener {
     @BindView(R.id.toolbar)
@@ -29,6 +32,7 @@ class LaunchActivity : AppCompatActivity(), ShoppingListAdapter.OnDeleteClickLis
     lateinit var recyclerView: RecyclerView
     private lateinit var shoppingListAdapter: ShoppingListAdapter
     private lateinit var shoppingListVM:ShoppingListViewModel
+    lateinit var shoppingList: ArrayList<ShoppingCard>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +52,38 @@ class LaunchActivity : AppCompatActivity(), ShoppingListAdapter.OnDeleteClickLis
 
         shoppingListVM = ViewModelProviders.of(this).get(ShoppingListViewModel::class.java)
         shoppingListVM.getShoppingList().observe(this, androidx.lifecycle.Observer {
-            shoppingListAdapter.setNotes(it)
-
+            this.shoppingList = ArrayList(it)
+            shoppingListAdapter.setNotes(shoppingList)
+            swipeListener(shoppingList)
         })
+    }
+
+    fun swipeListener(list: List<ShoppingCard>) {
+        var simpleTouchCallback = object : ItemTouchHelper.SimpleCallback(0, LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if (direction == LEFT) {
+                    var position = viewHolder.adapterPosition
+                    var card = shoppingList[position]
+                    shoppingListAdapter.removeItem(position)
+                    card.isPurchased = true
+                    shoppingListVM.updateCard(card)
+                } else Toast.makeText(
+                    this@LaunchActivity,
+                    "Swipe left to mark as purchased item or right to delete it",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(simpleTouchCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
     override fun onDeleteClickListener(shoppingCard: ShoppingCard) {
         shoppingListVM.deleteCard(shoppingCard)

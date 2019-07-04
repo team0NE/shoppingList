@@ -5,8 +5,8 @@ import android.os.AsyncTask
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import on.team.shoppinglist.data.ShoppingCard
 import on.team.shoppinglist.ShoppingApp
+import on.team.shoppinglist.data.ShoppingCard
 import on.team.shoppinglist.data.ShoppingListDAO
 import on.team.shoppinglist.data.ShoppingListRoomDatabase
 
@@ -21,7 +21,7 @@ class ShoppingListViewModel constructor(application: Application) : AndroidViewM
         Log.i(TAG, "ShoppingListViewModel")
         shoppingListDB = ShoppingApp.database
         shoppingListDao = shoppingListDB.shoppingListDAO()
-        shoppingCardList = shoppingListDao.getCardList()
+        shoppingCardList = shoppingListDao.getShoppingList()
     }
 
     override fun onCleared() {

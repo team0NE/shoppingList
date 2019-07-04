@@ -14,8 +14,11 @@ interface ShoppingListDAO {
     @Delete
     fun deleteCard(shoppingCard: ShoppingCard)
 
-    @Query("SELECT * FROM shopping_cards")
-    fun getCardList(): LiveData<List<ShoppingCard>>
+    @Query("SELECT * FROM shopping_cards WHERE is_purchased = 0")
+    fun getShoppingList(): LiveData<List<ShoppingCard>>
+
+    @Query("SELECT * FROM shopping_cards WHERE is_purchased = 1")
+    fun getPurchasedList(): LiveData<List<ShoppingCard>>
 
     @Query("SELECT * FROM shopping_cards WHERE id=:cardId")
     fun getCard(cardId:String):LiveData<ShoppingCard>

@@ -12,4 +12,6 @@ class ShoppingCard(id: String, description: String, date: String) {
     var description:String = description
     @ColumnInfo(name = "date")
     var date: String = date
+    @ColumnInfo(name = "is_purchased")
+    var isPurchased = false
 }

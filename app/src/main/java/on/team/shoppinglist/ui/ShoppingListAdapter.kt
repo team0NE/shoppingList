@@ -20,7 +20,7 @@ class ShoppingListAdapter(private val context: Context, onDeleteClickList: OnDel
     }
     private var onDeleteClickListener: OnDeleteClickListener = onDeleteClickList
     private val layoutInflater:LayoutInflater = LayoutInflater.from(context)
-    var adapterCardList:List<ShoppingCard> = ArrayList()
+    var adapterCardList: ArrayList<ShoppingCard> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListViewHolder {
         var itemView:View = layoutInflater.inflate(R.layout.list_item, parent, false)
@@ -39,7 +39,14 @@ class ShoppingListAdapter(private val context: Context, onDeleteClickList: OnDel
         } else holder.cardItemView.text = R.string.no_card.toString()
     }
     fun setNotes(shoppingCards:List<ShoppingCard>) {
-        this.adapterCardList = shoppingCards
+        this.adapterCardList = ArrayList(shoppingCards)
+        notifyDataSetChanged()
+    }
+
+    fun removeItem(position: Int) {
+        adapterCardList.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, adapterCardList.size)
         notifyDataSetChanged()
     }
 
