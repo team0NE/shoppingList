@@ -1,30 +1,24 @@
 package on.team.shoppinglist.ui
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import on.team.shoppinglist.R
-import on.team.shoppinglist.activities.EditShoppingCardActivity
 import on.team.shoppinglist.data.ShoppingCard
-import on.team.shoppinglist.utils.UPDATE_CARD_ACTIVITY_REQUEST_CODE
+import on.team.shoppinglist.ui.interfaces.ShoppingItemClickListener
 
-class ShoppingListAdapter(private val context: Context, onDeleteClickList: OnDeleteClickListener) : RecyclerView.Adapter<ShoppingListAdapter.ShoppingListViewHolder>() {
-    interface OnDeleteClickListener {
-        fun onDeleteClickListener(shoppingCard: ShoppingCard)
-    }
-    private var onDeleteClickListener: OnDeleteClickListener = onDeleteClickList
+class ShoppingListAdapter(private val context: Context, itemListener: ShoppingItemClickListener) :
+    RecyclerView.Adapter<ShoppingListAdapter.ShoppingListViewHolder>() {
+    private var itemClickListener = itemListener
     private val layoutInflater:LayoutInflater = LayoutInflater.from(context)
     var adapterCardList: ArrayList<ShoppingCard> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListViewHolder {
         var itemView:View = layoutInflater.inflate(R.layout.list_item, parent, false)
-        return ShoppingListViewHolder(itemView)
+        return ShoppingListViewHolder(itemView, itemClickListener)
     }
     override fun getItemCount(): Int {
         if (adapterCardList!=null) return adapterCardList.size
@@ -35,7 +29,6 @@ class ShoppingListAdapter(private val context: Context, onDeleteClickList: OnDel
             var card = adapterCardList[position]
             var date = adapterCardList[position].date
             holder.setData(card.description, date, position)
-            holder.setListeners()
         } else holder.cardItemView.text = R.string.no_card.toString()
     }
     fun setNotes(shoppingCards:List<ShoppingCard>) {
@@ -50,29 +43,27 @@ class ShoppingListAdapter(private val context: Context, onDeleteClickList: OnDel
         notifyDataSetChanged()
     }
 
-    inner class ShoppingListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ShoppingListViewHolder(itemView: View, var itemClickListener: ShoppingItemClickListener) :
+        RecyclerView.ViewHolder(itemView), View.OnClickListener {
+
         var cardItemView: TextView = itemView.findViewById(R.id.card_text)
         var dateView: TextView = itemView.findViewById(R.id.card_date)
-        var editButton: ImageView = itemView.findViewById(R.id.edit_btn_img)
-        var deleteButton: ImageView = itemView.findViewById(R.id.delete_btn_img)
         private var hPosition: Int = 0
+        var holderItemClickListener: ShoppingItemClickListener = itemClickListener
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         fun setData(card: String, date: String, position: Int) {
             cardItemView.text = card
             dateView.text = date
             hPosition = position
         }
-        fun setListeners() {
-            editButton.setOnClickListener {
-                var intent = Intent(context, EditShoppingCardActivity::class.java)
-                intent.putExtra("card_id", adapterCardList[hPosition].id)
-                var activity = context as Activity
-                activity.startActivityForResult(intent, UPDATE_CARD_ACTIVITY_REQUEST_CODE)
-            }
-            deleteButton.setOnClickListener {
-                if (onDeleteClickListener != null)
-                    onDeleteClickListener.onDeleteClickListener(adapterCardList[hPosition])
-            }
+
+        override fun onClick(v: View?) {
+            holderItemClickListener.onItemClickListener(adapterPosition)
+
         }
     }
 }

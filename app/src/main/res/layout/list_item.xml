@@ -21,6 +21,7 @@
                 android:src="@drawable/ic_add_photo"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 tools:ignore="ContentDescription"/>
 
         <TextView
@@ -35,31 +36,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintStart_toEndOf="@+id/item_image"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/delete_btn_img"/>
-
-        <ImageView
-                android:id="@+id/delete_btn_img"
-                android:layout_width="@dimen/dimension_24dp"
-                android:layout_height="@dimen/dimension_24dp"
-                android:layout_margin="@dimen/dimension_8dp"
-                android:tint="@color/colorPrimary"
-                android:src="@drawable/ic_delete"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="ContentDescription"/>
-
-        <ImageView
-                android:id="@+id/edit_btn_img"
-                android:layout_width="@dimen/dimension_24dp"
-                android:layout_height="@dimen/dimension_24dp"
-                android:layout_margin="@dimen/dimension_8dp"
-                android:src="@drawable/ic_edit"
-                android:tint="@color/colorPrimary"
-                app:layout_constraintTop_toBottomOf="@id/delete_btn_img"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:ignore="ContentDescription"/>
+                app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
                 android:id="@+id/card_date"

@@ -17,15 +17,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import on.team.shoppinglist.R
 import on.team.shoppinglist.data.ShoppingCard
 import on.team.shoppinglist.ui.ShoppingListAdapter
+import on.team.shoppinglist.ui.interfaces.ShoppingItemClickListener
 import on.team.shoppinglist.utils.*
 import on.team.shoppinglist.viewmodel.ShoppingListViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class LaunchActivity : AppCompatActivity(), ShoppingListAdapter.OnDeleteClickListener {
+class LaunchActivity : AppCompatActivity(), ShoppingItemClickListener {
     @BindView(R.id.toolbar)
     lateinit var toolbar: Toolbar
+
     @BindView(R.id.fab)
     lateinit var fab: FloatingActionButton
     @BindView(R.id.recycler_view)
@@ -33,7 +35,6 @@ class LaunchActivity : AppCompatActivity(), ShoppingListAdapter.OnDeleteClickLis
     private lateinit var shoppingListAdapter: ShoppingListAdapter
     private lateinit var shoppingListVM:ShoppingListViewModel
     lateinit var shoppingList: ArrayList<ShoppingCard>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launch)
@@ -85,8 +86,12 @@ class LaunchActivity : AppCompatActivity(), ShoppingListAdapter.OnDeleteClickLis
         val itemTouchHelper = ItemTouchHelper(simpleTouchCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
-    override fun onDeleteClickListener(shoppingCard: ShoppingCard) {
-        shoppingListVM.deleteCard(shoppingCard)
+
+    override fun onItemClickListener(position: Int) {
+        var intent = Intent(this, EditShoppingCardActivity::class.java)
+        intent.putExtra("card_id", shoppingList[position].id)
+        var activity = this as Activity
+        activity.startActivityForResult(intent, UPDATE_CARD_ACTIVITY_REQUEST_CODE)
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
