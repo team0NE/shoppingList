@@ -32,7 +32,7 @@ class EditShoppingCardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit)
+        setContentView(R.layout.edit_fragment)
         ButterKnife.bind(this)
         bundle = intent.extras
         if (bundle != null) cardId = bundle.getString("card_id")

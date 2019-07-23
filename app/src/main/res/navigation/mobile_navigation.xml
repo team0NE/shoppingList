@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/mobile_navigation"
+            app:startDestination="@id/destination_shopping">
+
+    <fragment android:id="@+id/destination_shopping" android:name="on.team.shoppinglist.fragments.ShoppingListFragment"
+              android:label="ShoppingListFragment">
+        <action android:id="@+id/action_destination_shopping_to_destination_purchased"
+                app:destination="@id/destination_purchased"/>
+        <action android:id="@+id/action_destination_shopping_to_destination_purchased2"
+                app:destination="@id/destination_purchased"/>
+    </fragment>
+    <activity android:id="@+id/editShoppingCardActivity"
+              android:name="on.team.shoppinglist.activities.EditShoppingCardActivity"
+              android:label="EditShoppingCardActivity"/>
+    <fragment android:id="@+id/destination_purchased"
+              android:name="on.team.shoppinglist.fragments.PurchasedListFragment"
+              android:label="PurchasedListFragment">
+        <action android:id="@+id/action_destination_purchased_to_destination_shopping"
+                app:destination="@id/destination_shopping"/>
+        <action android:id="@+id/action_destination_purchased_to_destination_shopping2"
+                app:destination="@id/destination_shopping"/>
+    </fragment>
+    <fragment android:id="@+id/destination_add_item"
+              android:name="on.team.shoppinglist.fragments.AddShoppingCardFragment"
+              android:label="AddShoppingCardFragment">
+        <argument android:name="newCard" app:argType="on.team.shoppinglist.data.ShoppingCard"/>
+    </fragment>
+</navigation>

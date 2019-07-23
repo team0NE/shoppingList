@@ -10,8 +10,9 @@ import on.team.shoppinglist.R
 import on.team.shoppinglist.data.ShoppingCard
 import on.team.shoppinglist.ui.interfaces.ShoppingItemClickListener
 
-class ShoppingListAdapter(private val context: Context, itemListener: ShoppingItemClickListener) :
+class ShoppingListAdapter(context: Context, itemListener: ShoppingItemClickListener) :
     RecyclerView.Adapter<ShoppingListAdapter.ShoppingListViewHolder>() {
+
     private var itemClickListener = itemListener
     private val layoutInflater:LayoutInflater = LayoutInflater.from(context)
     var adapterCardList: ArrayList<ShoppingCard> = ArrayList()
@@ -24,6 +25,7 @@ class ShoppingListAdapter(private val context: Context, itemListener: ShoppingIt
         if (adapterCardList!=null) return adapterCardList.size
         else return 0
     }
+
     override fun onBindViewHolder(holder: ShoppingListViewHolder, position: Int) {
         if (adapterCardList != null) {
             var card = adapterCardList[position]

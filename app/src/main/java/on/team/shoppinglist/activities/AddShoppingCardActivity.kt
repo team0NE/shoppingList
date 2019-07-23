@@ -23,7 +23,7 @@ class AddShoppingCardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new)
+        setContentView(R.layout.add_new_item_fragment)
         ButterKnife.bind(this)
 
         button.setOnClickListener {
@@ -38,4 +38,5 @@ class AddShoppingCardActivity : AppCompatActivity() {
             finish()
         }
     }
+
 }

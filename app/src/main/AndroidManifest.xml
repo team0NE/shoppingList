@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LaunchActivity"/>
+        <activity android:name=".activities.SingleBottomNavActivity"/>
         <activity android:name=".activities.AddShoppingCardActivity" />
         <activity android:name=".activities.EditShoppingCardActivity"/>
     </application>

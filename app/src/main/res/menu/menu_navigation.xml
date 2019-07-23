@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/destination_shopping"
+            android:icon="@drawable/ic_shopping_list"
+            android:title="@string/shopping_list"/>
+
+    <item
+            android:id="@+id/destination_purchased"
+            android:icon="@drawable/ic_purchased_list"
+            android:title="@string/purchased_list"/>
+    <item
+            android:id="@+id/destination_settings"
+            android:icon="@drawable/ic_settings_white"
+            android:title="@string/destination_settings"/>
+
+</menu>
