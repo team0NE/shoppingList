@@ -30,11 +30,16 @@ class ShoppingListViewModel constructor(application: Application) : AndroidViewM
     fun insert(shoppingCard: ShoppingCard) {
         repo.insert(shoppingCard)
     }
-    fun updateCard(shoppingCard: ShoppingCard) {
-        repo.updateCard(shoppingCard)
-    }
     fun deleteCard(shoppingCard: ShoppingCard) {
         repo.deleteCard(shoppingCard)
+    }
+
+    fun getCard(cardId: String): LiveData<ShoppingCard> {
+        return repo.getCard(cardId)
+    }
+
+    fun updateCard(shoppingCard: ShoppingCard) {
+        repo.updateCard(shoppingCard)
     }
     fun getShoppingList():LiveData<List<ShoppingCard>> {
         return repo.getShoppingList()

@@ -25,10 +25,10 @@ class AddShoppingCardFragment : Fragment() {
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         button.setOnClickListener {
-            /*resultIntent = Intent()
+            *//*resultIntent = Intent()
 
             if (addText.text.isEmpty()) setResult(Activity.RESULT_CANCELED, resultIntent)
             else {
@@ -36,7 +36,7 @@ class AddShoppingCardFragment : Fragment() {
                 resultIntent.putExtra(AddShoppingCardActivity.CARD_ADDED, card)
                 setResult(Activity.RESULT_OK, resultIntent)
             }
-            finish()*/
+            finish()*//*
         }
-    }
+    }*/
 }

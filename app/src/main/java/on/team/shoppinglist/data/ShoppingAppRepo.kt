@@ -31,6 +31,10 @@ class ShoppingAppRepo private constructor() {
         UpdateAsyncTask(shoppingListDao).execute(shoppingCard)
     }
 
+    fun getCard(cardId: String): LiveData<ShoppingCard> {
+        return shoppingListDao.getCard(cardId)
+    }
+
     fun deleteCard(shoppingCard: ShoppingCard) {
         DeleteAsyncTask(shoppingListDao).execute(shoppingCard)
     }

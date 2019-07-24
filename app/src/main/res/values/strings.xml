@@ -22,4 +22,7 @@
     <string name="dark_theme">Set dark theme</string>
     <string name="light_theme">Set light theme</string>
     <string name="clear_all">Clear all</string>
+    <string name="delete_btn">delete button</string>
+    <string name="add_dialog_title">Add new item to shopping list</string>
+    <string name="edit_dialog_title">edit the item description</string>
 </resources>

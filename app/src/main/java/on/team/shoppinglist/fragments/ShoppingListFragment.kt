@@ -1,12 +1,13 @@
 package on.team.shoppinglist.fragments
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -14,12 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import on.team.shoppinglist.R
-import on.team.shoppinglist.activities.AddShoppingCardActivity
-import on.team.shoppinglist.activities.EditShoppingCardActivity
 import on.team.shoppinglist.data.ShoppingCard
 import on.team.shoppinglist.ui.ShoppingListAdapter
 import on.team.shoppinglist.ui.interfaces.ShoppingItemClickListener
-import on.team.shoppinglist.utils.*
 import on.team.shoppinglist.viewmodel.ShoppingListViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -48,9 +46,44 @@ class ShoppingListFragment : Fragment(), ShoppingItemClickListener {
         recyclerView.layoutManager = layoutManager
 
         fab.setOnClickListener {
+            val dialogBuilder = AlertDialog.Builder(this.context!!)
+            val dialogView = layoutInflater.inflate(R.layout.add_new_item_fragment, null)
+            val itemId: String = UUID.randomUUID().toString()
+            val description = ""
+            val presentDate: String = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().time)
+            var newCard = ShoppingCard(itemId, description, presentDate)
+
+            var newItemText: EditText = dialogView.findViewById(R.id.add_card_text)
+            var applyButton: Button = dialogView.findViewById(R.id.save_btn)
+            dialogBuilder.setTitle(getString(R.string.add_dialog_title))
+                .setView(dialogView)
+                .setCancelable(false)
+            var alertDialog = dialogBuilder.create()
+            alertDialog.show()
+            applyButton.setOnClickListener {
+                if (newItemText.text.toString().isEmpty()) {
+                    Toast.makeText(
+                        context,
+                        "Please, input information",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    newCard.description = newItemText.text.toString()
+                    shoppingListVM.insert(newCard)
+                    alertDialog.dismiss()
+
+                    Toast.makeText(
+                        context,
+                        "\"${newCard.description}\" was " + getString(R.string.saved),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            /* working code for activity variant
             val intent = Intent(context, AddShoppingCardActivity::class.java)
             startActivityForResult(intent, NEW_CARD_ACTIVITY_REQUEST_CODE)
-            Toast.makeText(context, "addButton was clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "addButton was clicked", Toast.LENGTH_SHORT).show()*/
         }
 
         shoppingListVM = ViewModelProviders.of(this).get(ShoppingListViewModel::class.java)
@@ -90,42 +123,89 @@ class ShoppingListFragment : Fragment(), ShoppingItemClickListener {
     }
 
     override fun onItemClickListener(position: Int) {
+        var editCard = shoppingList[position]
+
+        val editDialogBuilder = AlertDialog.Builder(this.context!!)
+        val editDialogView = layoutInflater.inflate(R.layout.edit_fragment, null)
+
+        var editText: EditText = editDialogView.findViewById(R.id.update_card)
+        var updateButton: Button = editDialogView.findViewById(R.id.update_btn)
+        var cancelButton: Button = editDialogView.findViewById(R.id.cancel_btn)
+        editDialogBuilder.setTitle(getString(R.string.edit_dialog_title))
+            .setView(editDialogView)
+            .setCancelable(false)
+        editText.setText(editCard.description)
+        var alertDialog = editDialogBuilder.create()
+        alertDialog.show()
+        cancelButton.setOnClickListener {
+            Toast.makeText(this.context!!, R.string.not_saved, Toast.LENGTH_SHORT).show()
+            alertDialog.dismiss()
+        }
+        updateButton.setOnClickListener {
+            editCard.description = editText.text.toString()
+            shoppingListVM.updateCard(editCard)
+            Toast.makeText(this.context!!, R.string.saved, Toast.LENGTH_SHORT).show()
+            alertDialog.dismiss()
+        }
+        /*  applyButton.setOnClickListener {
+              if (newItemText.text.toString().isEmpty()) {
+                  Toast.makeText(
+                      context,
+                      "Please, input information",
+                      Toast.LENGTH_SHORT
+                  ).show()
+              }
+              else {
+                  newCard.description = newItemText.text.toString()
+                  shoppingListVM.insert(newCard)
+                  alertDialog.dismiss()
+
+                  Toast.makeText(
+                      context,
+                      "\"${newCard.description}\" was " + getString(R.string.saved),
+                      Toast.LENGTH_SHORT
+                  ).show()
+              }
+          }*/
+
+
+        /* working code for activity var
         var intent = Intent(context, EditShoppingCardActivity::class.java)
         intent.putExtra("card_id", shoppingList[position].id)
         var activity = this
-        activity.startActivityForResult(intent, UPDATE_CARD_ACTIVITY_REQUEST_CODE)
+        activity.startActivityForResult(intent, UPDATE_CARD_ACTIVITY_REQUEST_CODE)*/
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == NEW_CARD_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val card_id: String = UUID.randomUUID().toString()
-            val date = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().time)
-            val card = ShoppingCard(card_id, data!!.getStringExtra(AddShoppingCardActivity.CARD_ADDED), date)
-            shoppingListVM.insert(card)
-            Toast.makeText(
-                context,
-                "\"${card.description}\" was " + getString(R.string.saved),
-                Toast.LENGTH_SHORT
-            ).show()
-        } else if (requestCode == UPDATE_CARD_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val card = ShoppingCard(
-                data!!.getStringExtra(CARD_ID),
-                data.getStringExtra(UPDATED_CARD),
-                data.getStringExtra(CARD_DATE)
-            )
-            shoppingListVM.updateCard(card)
-            Toast.makeText(
-                context,
-                "\"${card.description}\" was " + getString(R.string.updated),
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText(
-                context,
-                R.string.not_saved,
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
+    /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+         super.onActivityResult(requestCode, resultCode, data)
+         if (requestCode == NEW_CARD_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+             val card_id: String = UUID.randomUUID().toString()
+             val date = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().time)
+             val card = ShoppingCard(card_id, data!!.getStringExtra(AddShoppingCardActivity.CARD_ADDED), date)
+             shoppingListVM.insert(card)
+             Toast.makeText(
+                 context,
+                 "\"${card.description}\" was " + getString(R.string.saved),
+                 Toast.LENGTH_SHORT
+             ).show()
+         } else if (requestCode == UPDATE_CARD_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+             val card = ShoppingCard(
+                 data!!.getStringExtra(CARD_ID),
+                 data.getStringExtra(UPDATED_CARD),
+                 data.getStringExtra(CARD_DATE)
+             )
+             shoppingListVM.updateCard(card)
+             Toast.makeText(
+                 context,
+                 "\"${card.description}\" was " + getString(R.string.updated),
+                 Toast.LENGTH_SHORT
+             ).show()
+         } else {
+             Toast.makeText(
+                 context,
+                 R.string.not_saved,
+                 Toast.LENGTH_SHORT
+             ).show()
+         }
+     }*/
 }
