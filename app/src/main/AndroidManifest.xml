@@ -21,8 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.SingleBottomNavActivity"/>
-        <activity android:name=".activities.AddShoppingCardActivity" />
-        <activity android:name=".activities.EditShoppingCardActivity"/>
     </application>
 
 </manifest>

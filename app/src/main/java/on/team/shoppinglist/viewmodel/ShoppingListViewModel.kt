@@ -10,16 +10,10 @@ import on.team.shoppinglist.data.ShoppingCard
 
 class ShoppingListViewModel constructor(application: Application) : AndroidViewModel(application) {
     val TAG = this.javaClass.name
-    /* var shoppingListDB:ShoppingListRoomDatabase
-     private var shoppingListDao:ShoppingListDAO
-     private var shoppingCardList: LiveData<List<ShoppingCard>>*/
-    lateinit var repo: ShoppingAppRepo
+    var repo: ShoppingAppRepo
 
     init {
         Log.i(TAG, "ShoppingListViewModel")
-        /* shoppingListDB = ShoppingApp.database
-         shoppingListDao = shoppingListDB.shoppingListDAO()
-         shoppingCardList = shoppingListDao.getShoppingList()*/
         repo = ShoppingAppRepo.getInstance()
     }
 
@@ -27,39 +21,15 @@ class ShoppingListViewModel constructor(application: Application) : AndroidViewM
         super.onCleared()
         Log.i(TAG, "ShoppingListViewModel destroyed")
     }
-    fun insert(shoppingCard: ShoppingCard) {
+
+    suspend fun insert(shoppingCard: ShoppingCard) {
         repo.insert(shoppingCard)
     }
-    fun deleteCard(shoppingCard: ShoppingCard) {
-        repo.deleteCard(shoppingCard)
-    }
 
-    fun getCard(cardId: String): LiveData<ShoppingCard> {
-        return repo.getCard(cardId)
-    }
-
-    fun updateCard(shoppingCard: ShoppingCard) {
+    suspend fun updateCard(shoppingCard: ShoppingCard) {
         repo.updateCard(shoppingCard)
     }
     fun getShoppingList():LiveData<List<ShoppingCard>> {
         return repo.getShoppingList()
     }
-    /* private class InsertAsyncTask(var shoppingListDAO: ShoppingListDAO) : AsyncTask<ShoppingCard, Void, Void>() {
-         override fun doInBackground(vararg shoppingCards: ShoppingCard): Void? {
-             shoppingListDAO.insert(shoppingCards[0])
-             return null
-         }
-     }
-     private class UpdateAsyncTask(var shoppingListDAO: ShoppingListDAO) : AsyncTask<ShoppingCard, Void, Void>() {
-         override fun doInBackground(vararg shoppingCards: ShoppingCard): Void? {
-             shoppingListDAO.updateCard(shoppingCards[0])
-             return null
-         }
-     }
-     private class DeleteAsyncTask(var shoppingListDAO: ShoppingListDAO) : AsyncTask<ShoppingCard, Void, Void>() {
-         override fun doInBackground(vararg shoppingCards: ShoppingCard): Void? {
-             shoppingListDAO.deleteCard(shoppingCards[0])
-             return null
-         }
-     }*/
 }

@@ -8,12 +8,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
 import on.team.shoppinglist.R
 import on.team.shoppinglist.data.ShoppingCard
 import on.team.shoppinglist.ui.ShoppingListAdapter
@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ShoppingListFragment : Fragment(), ShoppingItemClickListener {
+class ShoppingListFragment : BaseFragment(), ShoppingItemClickListener {
     lateinit var fab: FloatingActionButton
     lateinit var recyclerView: RecyclerView
     private lateinit var shoppingListAdapter: ShoppingListAdapter
@@ -69,7 +69,10 @@ class ShoppingListFragment : Fragment(), ShoppingItemClickListener {
                     ).show()
                 } else {
                     newCard.description = newItemText.text.toString()
-                    shoppingListVM.insert(newCard)
+                    launch {
+                        shoppingListVM.insert(newCard)
+                    }
+//                    shoppingListVM.insert(newCard)
                     alertDialog.dismiss()
 
                     Toast.makeText(
@@ -80,10 +83,6 @@ class ShoppingListFragment : Fragment(), ShoppingItemClickListener {
                 }
             }
 
-            /* working code for activity variant
-            val intent = Intent(context, AddShoppingCardActivity::class.java)
-            startActivityForResult(intent, NEW_CARD_ACTIVITY_REQUEST_CODE)
-            Toast.makeText(context, "addButton was clicked", Toast.LENGTH_SHORT).show()*/
         }
 
         shoppingListVM = ViewModelProviders.of(this).get(ShoppingListViewModel::class.java)
@@ -110,7 +109,9 @@ class ShoppingListFragment : Fragment(), ShoppingItemClickListener {
                     var card = shoppingList[position]
                     shoppingListAdapter.removeItem(position)
                     card.isPurchased = true
-                    shoppingListVM.updateCard(card)
+                    launch {
+                        shoppingListVM.updateCard(card)
+                    }
                 } else Toast.makeText(
                     context,
                     "Swipe left to mark as purchased item or right to delete it",
@@ -143,69 +144,11 @@ class ShoppingListFragment : Fragment(), ShoppingItemClickListener {
         }
         updateButton.setOnClickListener {
             editCard.description = editText.text.toString()
-            shoppingListVM.updateCard(editCard)
+            launch {
+                shoppingListVM.updateCard(editCard)
+            }
             Toast.makeText(this.context!!, R.string.saved, Toast.LENGTH_SHORT).show()
             alertDialog.dismiss()
         }
-        /*  applyButton.setOnClickListener {
-              if (newItemText.text.toString().isEmpty()) {
-                  Toast.makeText(
-                      context,
-                      "Please, input information",
-                      Toast.LENGTH_SHORT
-                  ).show()
-              }
-              else {
-                  newCard.description = newItemText.text.toString()
-                  shoppingListVM.insert(newCard)
-                  alertDialog.dismiss()
-
-                  Toast.makeText(
-                      context,
-                      "\"${newCard.description}\" was " + getString(R.string.saved),
-                      Toast.LENGTH_SHORT
-                  ).show()
-              }
-          }*/
-
-
-        /* working code for activity var
-        var intent = Intent(context, EditShoppingCardActivity::class.java)
-        intent.putExtra("card_id", shoppingList[position].id)
-        var activity = this
-        activity.startActivityForResult(intent, UPDATE_CARD_ACTIVITY_REQUEST_CODE)*/
     }
-
-    /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-         super.onActivityResult(requestCode, resultCode, data)
-         if (requestCode == NEW_CARD_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-             val card_id: String = UUID.randomUUID().toString()
-             val date = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().time)
-             val card = ShoppingCard(card_id, data!!.getStringExtra(AddShoppingCardActivity.CARD_ADDED), date)
-             shoppingListVM.insert(card)
-             Toast.makeText(
-                 context,
-                 "\"${card.description}\" was " + getString(R.string.saved),
-                 Toast.LENGTH_SHORT
-             ).show()
-         } else if (requestCode == UPDATE_CARD_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-             val card = ShoppingCard(
-                 data!!.getStringExtra(CARD_ID),
-                 data.getStringExtra(UPDATED_CARD),
-                 data.getStringExtra(CARD_DATE)
-             )
-             shoppingListVM.updateCard(card)
-             Toast.makeText(
-                 context,
-                 "\"${card.description}\" was " + getString(R.string.updated),
-                 Toast.LENGTH_SHORT
-             ).show()
-         } else {
-             Toast.makeText(
-                 context,
-                 R.string.not_saved,
-                 Toast.LENGTH_SHORT
-             ).show()
-         }
-     }*/
 }

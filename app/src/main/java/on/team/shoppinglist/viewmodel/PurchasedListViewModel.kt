@@ -9,25 +9,19 @@ import on.team.shoppinglist.data.ShoppingCard
 
 class PurchasedListViewModel constructor(application: Application) : AndroidViewModel(application) {
     private val TAG = this.javaClass.name
-    /*private var shoppingListDB: ShoppingListRoomDatabase
-    private var shoppingListDao: ShoppingListDAO
-    private var purchasedCardList: LiveData<List<ShoppingCard>>*/
-    lateinit var repo: ShoppingAppRepo
+    var repo: ShoppingAppRepo
 
     init {
         Log.i(TAG, "ShoppingListViewModel")
 
-        /*shoppingListDB = ShoppingApp.database
-        shoppingListDao = shoppingListDB.shoppingListDAO()
-        purchasedCardList = shoppingListDao.getPurchasedList()*/
+
         repo = ShoppingAppRepo.getInstance()
     }
-
     fun getPurchasedList(): LiveData<List<ShoppingCard>> {
         return repo.getPurchasedList()
     }
 
-    private fun deletePurchasedList() {
+    suspend fun deletePurchasedList() {
         repo.deletePurchasedList()
     }
 }
