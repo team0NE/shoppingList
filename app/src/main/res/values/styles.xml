@@ -1,7 +1,23 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryLight</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="backgroundColor">@color/backgroundColor</item>
+        <item name="cardBackground">@color/cardBackground</item>
+        <item name="cardBackgroundLight">@color/cardBackgroundLight</item>
+        <item name="textColorPrimary">@color/textColorPrimary</item>
+        <item name="textColorSecondary">@color/textColorSecondary</item>
+        <item name="textColorThird">@color/textColorThird</item>
+        <item name="tintColor">@color/tintColor</item>
+        <item name="buttonColor">@color/buttonColor</item>
+
+    </style>
+    <!-- Old application theme. -->
+    <style name="AppThemeOld" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryLight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

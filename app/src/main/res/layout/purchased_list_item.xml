@@ -11,44 +11,43 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryLight">
-
-        <ImageView
-                android:id="@+id/item_image"
-                android:layout_width="@dimen/dimension_54dp"
-                android:layout_height="@dimen/dimension_54dp"
-                android:layout_margin="@dimen/dimension_8dp"
-                android:src="@drawable/ic_add_photo"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:ignore="ContentDescription"/>
-
+            android:minHeight="@dimen/dimension_70dp"
+            android:background="@color/cardBackgroundLight"
+    >
         <TextView
                 android:id="@+id/card_text"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_8dp"
                 android:text="@string/card_example"
                 android:textSize="16sp"
+                android:textStyle="italic"
                 android:maxLength="96"
                 android:ellipsize="end"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toEndOf="@+id/item_image"
+                android:textColor="@color/textColorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+        <ImageView
+                android:id="@+id/purchased_fragment__checkbox_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_8dp"
+                android:src="@drawable/ic_check_box"
+                android:tint="@color/white"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="ContentDescription"/>
 
         <TextView
                 android:id="@+id/card_date"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_8dp"
-                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorThird"
                 android:textSize="12sp"
                 android:text="@string/date_example"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/card_text"
-                app:layout_constraintTop_toBottomOf="@+id/card_text"/>
+                android:layout_margin="@dimen/margin_8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

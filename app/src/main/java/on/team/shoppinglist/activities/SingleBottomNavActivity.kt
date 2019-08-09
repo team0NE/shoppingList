@@ -12,6 +12,8 @@ import on.team.shoppinglist.fragments.SettingsFragment
 import on.team.shoppinglist.fragments.ShoppingListFragment
 
 class SingleBottomNavActivity : AppCompatActivity() {
+    @BindView(R.id.toolbar)
+    lateinit var toolbar: androidx.appcompat.widget.Toolbar
     @BindView(R.id.bottom_navi)
     lateinit var bottomNav: BottomNavigationView
 
@@ -31,6 +33,7 @@ class SingleBottomNavActivity : AppCompatActivity() {
             true
         }
         bottomNav.selectedItemId = R.id.destination_shopping
+        setSupportActionBar(toolbar)
     }
 
     private fun loadFragment(fragment: Fragment) {

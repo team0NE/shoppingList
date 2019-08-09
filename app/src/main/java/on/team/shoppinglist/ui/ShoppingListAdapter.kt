@@ -18,7 +18,7 @@ class ShoppingListAdapter(context: Context, itemListener: ShoppingItemClickListe
     var adapterCardList: ArrayList<ShoppingCard> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListViewHolder {
-        var itemView:View = layoutInflater.inflate(R.layout.list_item, parent, false)
+        val itemView: View = layoutInflater.inflate(R.layout.shopping_list_item, parent, false)
         return ShoppingListViewHolder(itemView, itemClickListener)
     }
     override fun getItemCount(): Int {
@@ -28,8 +28,8 @@ class ShoppingListAdapter(context: Context, itemListener: ShoppingItemClickListe
 
     override fun onBindViewHolder(holder: ShoppingListViewHolder, position: Int) {
         if (adapterCardList != null) {
-            var card = adapterCardList[position]
-            var date = adapterCardList[position].date
+            val card = adapterCardList[position]
+            val date = adapterCardList[position].date
             holder.setData(card.description, date, position)
         } else holder.cardItemView.text = R.string.no_card.toString()
     }
@@ -45,7 +45,7 @@ class ShoppingListAdapter(context: Context, itemListener: ShoppingItemClickListe
         notifyDataSetChanged()
     }
 
-    inner class ShoppingListViewHolder(itemView: View, var itemClickListener: ShoppingItemClickListener) :
+    inner class ShoppingListViewHolder(itemView: View, itemClickListener: ShoppingItemClickListener) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         var cardItemView: TextView = itemView.findViewById(R.id.card_text)

@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +32,7 @@ class ShoppingListFragment : BaseFragment(), ShoppingItemClickListener {
     lateinit var shoppingList: ArrayList<ShoppingCard>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        (activity as? AppCompatActivity)?.supportActionBar?.setTitle(R.string.shopping_list)
         return inflater.inflate(R.layout.shopping_list_fragment, container, false)
     }
 
@@ -51,14 +53,14 @@ class ShoppingListFragment : BaseFragment(), ShoppingItemClickListener {
             val itemId: String = UUID.randomUUID().toString()
             val description = ""
             val presentDate: String = SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(Calendar.getInstance().time)
-            var newCard = ShoppingCard(itemId, description, presentDate)
+            val newCard = ShoppingCard(itemId, description, presentDate)
 
-            var newItemText: EditText = dialogView.findViewById(R.id.add_card_text)
-            var applyButton: Button = dialogView.findViewById(R.id.save_btn)
+            val newItemText: EditText = dialogView.findViewById(R.id.add_card_text)
+            val applyButton: Button = dialogView.findViewById(R.id.save_btn)
             dialogBuilder.setTitle(getString(R.string.add_dialog_title))
                 .setView(dialogView)
                 .setCancelable(false)
-            var alertDialog = dialogBuilder.create()
+            val alertDialog = dialogBuilder.create()
             alertDialog.show()
             applyButton.setOnClickListener {
                 if (newItemText.text.toString().isEmpty()) {
@@ -93,8 +95,8 @@ class ShoppingListFragment : BaseFragment(), ShoppingItemClickListener {
         })
     }
 
-    fun swipeListener(list: List<ShoppingCard>) {
-        var simpleTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    private fun swipeListener(list: List<ShoppingCard>) {
+        val simpleTouchCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -105,8 +107,8 @@ class ShoppingListFragment : BaseFragment(), ShoppingItemClickListener {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if (direction == ItemTouchHelper.LEFT) {
-                    var position = viewHolder.adapterPosition
-                    var card = shoppingList[position]
+                    val position = viewHolder.adapterPosition
+                    val card = shoppingList[position]
                     shoppingListAdapter.removeItem(position)
                     card.isPurchased = true
                     launch {
@@ -124,19 +126,19 @@ class ShoppingListFragment : BaseFragment(), ShoppingItemClickListener {
     }
 
     override fun onItemClickListener(position: Int) {
-        var editCard = shoppingList[position]
+        val editCard = shoppingList[position]
 
         val editDialogBuilder = AlertDialog.Builder(this.context!!)
         val editDialogView = layoutInflater.inflate(R.layout.edit_fragment, null)
 
-        var editText: EditText = editDialogView.findViewById(R.id.update_card)
-        var updateButton: Button = editDialogView.findViewById(R.id.update_btn)
-        var cancelButton: Button = editDialogView.findViewById(R.id.cancel_btn)
+        val editText: EditText = editDialogView.findViewById(R.id.update_card)
+        val updateButton: Button = editDialogView.findViewById(R.id.update_btn)
+        val cancelButton: Button = editDialogView.findViewById(R.id.cancel_btn)
         editDialogBuilder.setTitle(getString(R.string.edit_dialog_title))
             .setView(editDialogView)
             .setCancelable(false)
         editText.setText(editCard.description)
-        var alertDialog = editDialogBuilder.create()
+        val alertDialog = editDialogBuilder.create()
         alertDialog.show()
         cancelButton.setOnClickListener {
             Toast.makeText(this.context!!, R.string.not_saved, Toast.LENGTH_SHORT).show()

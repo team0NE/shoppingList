@@ -14,4 +14,6 @@
     <dimen name="text_36sp">36sp</dimen>
     <dimen name="text_54sp">54sp</dimen>
     <dimen name="text_20sp">20sp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="dimension_70dp">70dp</dimen>
 </resources>

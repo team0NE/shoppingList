@@ -1,6 +1,7 @@
 package on.team.shoppinglist.ui
 
 import android.content.Context
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +15,8 @@ open class PurchasedListAdepter(context: Context) :
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     open var adapterCardList: ArrayList<ShoppingCard> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PurchasedListAdepter.PurchasedListViewHolder {
-        var itemView: View = layoutInflater.inflate(R.layout.list_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PurchasedListViewHolder {
+        val itemView: View = layoutInflater.inflate(R.layout.purchased_list_item, parent, false)
         return PurchasedListViewHolder(itemView)
     }
 
@@ -26,8 +27,8 @@ open class PurchasedListAdepter(context: Context) :
 
     override fun onBindViewHolder(holder: PurchasedListViewHolder, position: Int) {
         if (adapterCardList != null) {
-            var card = adapterCardList[position]
-            var date = adapterCardList[position].date
+            val card = adapterCardList[position]
+            val date = adapterCardList[position].date
             holder.setData(card.description, date, position)
         } else holder.cardItemView.text = R.string.no_card.toString()
     }
@@ -36,12 +37,6 @@ open class PurchasedListAdepter(context: Context) :
         this.adapterCardList = ArrayList(shoppingCards)
         notifyDataSetChanged()
     }
-    /*fun removeItem(position: Int) {
-        adapterCardList.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, adapterCardList.size)
-        notifyDataSetChanged()
-    }*/
 
     open inner class PurchasedListViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
@@ -51,6 +46,7 @@ open class PurchasedListAdepter(context: Context) :
 
         open fun setData(card: String, date: String, position: Int) {
             cardItemView.text = card
+            cardItemView.paintFlags = (Paint.STRIKE_THRU_TEXT_FLAG)
             dateView.text = date
             hPosition = position
         }
